@@ -1,0 +1,11 @@
+{
+  "id": "demo-release-002",
+  "type": "release.published",
+  "target": "sleepy-mona",
+  "payload": {
+    "fictional": true,
+    "repository": "octoverse/moon-mail",
+    "release": {"tag_name": "v0.1.0-demo", "name": "One small nap for Mona"},
+    "sender": "mona"
+  }
+}

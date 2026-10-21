@@ -1,0 +1,6 @@
+{
+  "id": "demo-invalid-004",
+  "type": "push",
+  "target": "https://webhook.invalid/do-not-send",
+  "payload": {"fictional": true, "note": "Reject this address; never make an HTTP request."}
+}
