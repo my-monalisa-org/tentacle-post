@@ -96,17 +96,20 @@ go build ./cmd/tentacle-post
 
 **[Reliability Lookout](.github/workflows/reliability-lookout.md)** is a real
 [GitHub Agentic Workflow](https://github.github.com/gh-aw/), not a scripted fake
-AI check. It runs **Mondays at 09:17 UTC**, with optional `workflow_dispatch`
+AI check. It runs **weekly on Mondays at a repository-scattered UTC time**, with optional `workflow_dispatch`
 for a maintainer-authorized run. GitHub schedules may be delayed. Its compiled
 `.lock.yml` is committed alongside the Markdown source; the schedule starts
 through normal merge to the default branch, with no separate activation step.
 
 The workflow prepares real test/vet evidence, then asks Copilot to compare the
 documented API with code, tests, and fixtures. It can create **at most one**
-evidence-backed issue, and does nothing if there is no actionable gap. A stable
-workflow marker skips agent execution while its previous issue remains open;
-maintainers must close/resolve that issue to resume reviews. Prior findings and
-title deduplication reduce repeats. Intentional simulated 503s are not incidents.
+evidence-backed issue, and does nothing if there is no actionable gap. Findings
+receive the dedicated `reliability-finding` label; an open issue with that label
+skips agent execution until maintainers close/resolve it. Framework billing and
+detector-error notifications do not carry this label and must not suppress reviews.
+Prior labeled findings and title deduplication reduce repeats. Intentional
+simulated 503s are not incidents. Keep `reliability-finding` reserved for actual
+Lookout findings rather than setup or framework notifications.
 
 ### Authentication, permissions, and cost
 
@@ -119,11 +122,11 @@ gh aw compile reliability-lookout --strict --validate
 gh aw list
 ```
 
-Copilot is explicit; the main model defaults to **`auto`** (no custom model
-override). The generated runtime resolves `GH_AW_MODEL_AGENT_COPILOT`, then
-`GH_AW_DEFAULT_MODEL_COPILOT`, then `auto`. Its separate output threat-detection
-pass defaults to the `detection` alias; `GH_AW_MODEL_DETECTION_COPILOT` or the
-shared default variable can override that model. Before running, an organization administrator must
+Copilot is explicit; the main model is pinned to **`gpt-5.3-codex`** rather
+than `auto`. The pin avoids selecting a catalog model without runtime AI-credit
+pricing; no fallback pricing is invented and the budget stays enforced.
+The separate output threat-detection pass uses the same explicit model pin.
+Before running, an organization administrator must
 permit GitHub Actions, the pinned gh-aw actions, and Copilot workflow-token
 inference for this repository, with a supported model and sufficient billing
 budget/quota. The workflow requests `copilot-requests: write` so the runtime can

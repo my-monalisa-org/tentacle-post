@@ -3,15 +3,15 @@ name: Reliability Lookout
 description: Review Tentacle Post's delivery contract against code, fixtures, and deterministic tests.
 intent: Help maintainers catch actionable delivery-contract gaps without inventing incidents or duplicate work.
 on:
-  schedule:
-    - cron: "17 9 * * 1"
+  schedule: weekly on monday
   workflow_dispatch:
-  skip-if-match: 'is:issue is:open in:body "gh-aw-workflow-id: reliability-lookout"'
+  skip-if-match: 'is:issue is:open label:reliability-finding'
 permissions:
   contents: read
   issues: read
   copilot-requests: write
 engine: copilot
+model: gpt-5.3-codex
 strict: true
 timeout-minutes: 10
 max-turns: 12
@@ -27,6 +27,8 @@ tools:
 safe-outputs:
   create-issue:
     title-prefix: "[Reliability Lookout] "
+    labels: [reliability-finding]
+    allowed-labels: [reliability-finding]
     max: 1
     deduplicate-by-title: true
 steps:
@@ -45,7 +47,7 @@ steps:
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}
     run: |
-      gh issue list --state all --search 'in:title "[Reliability Lookout]"' --limit 20 --json number,title,state,body > /tmp/gh-aw/evidence/issues.json
+      gh issue list --state all --label reliability-finding --limit 20 --json number,title,state,body > /tmp/gh-aw/evidence/issues.json
 ---
 
 # Tentacle Post Reliability Lookout
