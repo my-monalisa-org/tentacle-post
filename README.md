@@ -96,17 +96,20 @@ go build ./cmd/tentacle-post
 
 **[Reliability Lookout](.github/workflows/reliability-lookout.md)** is a real
 [GitHub Agentic Workflow](https://github.github.com/gh-aw/), not a scripted fake
-AI check. It runs **Mondays at 09:17 UTC**, with optional `workflow_dispatch`
+AI check. It runs **weekly on Mondays at a repository-scattered UTC time**, with optional `workflow_dispatch`
 for a maintainer-authorized run. GitHub schedules may be delayed. Its compiled
 `.lock.yml` is committed alongside the Markdown source; the schedule starts
 through normal merge to the default branch, with no separate activation step.
 
 The workflow prepares real test/vet evidence, then asks Copilot to compare the
 documented API with code, tests, and fixtures. It can create **at most one**
-evidence-backed issue, and does nothing if there is no actionable gap. A stable
-workflow marker skips agent execution while its previous issue remains open;
-maintainers must close/resolve that issue to resume reviews. Prior findings and
-title deduplication reduce repeats. Intentional simulated 503s are not incidents.
+evidence-backed issue, and does nothing if there is no actionable gap. Findings
+receive the dedicated `reliability-finding` label; an open issue with that label
+skips agent execution until maintainers close/resolve it. Framework billing and
+detector-error notifications do not carry this label and must not suppress reviews.
+Prior labeled findings and title deduplication reduce repeats. Intentional
+simulated 503s are not incidents. Keep `reliability-finding` reserved for actual
+Lookout findings rather than setup or framework notifications.
 
 ### Authentication, permissions, and cost
 
