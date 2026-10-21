@@ -1,0 +1,11 @@
+{
+  "id": "demo-issue-003",
+  "type": "issues.opened",
+  "target": "lost-in-space",
+  "payload": {
+    "fictional": true,
+    "repository": "octoverse/rocket-cat",
+    "issue": {"number": 42, "title": "Mailbox drifting beyond the snack nebula"},
+    "sender": "astrocat"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "demo-push-001",
+  "type": "push",
+  "target": "octocat-inbox",
+  "payload": {
+    "fictional": true,
+    "repository": "octoverse/hello-tentacles",
+    "ref": "refs/heads/main",
+    "commits": [{"sha": "fictional-commit-001", "message": "Ship the confetti sorter"}],
+    "sender": "octocat"
+  }
+}
