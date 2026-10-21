@@ -11,6 +11,7 @@ permissions:
   issues: read
   copilot-requests: write
 engine: copilot
+model: gpt-5.3-codex
 strict: true
 timeout-minutes: 10
 max-turns: 12

@@ -122,11 +122,11 @@ gh aw compile reliability-lookout --strict --validate
 gh aw list
 ```
 
-Copilot is explicit; the main model defaults to **`auto`** (no custom model
-override). The generated runtime resolves `GH_AW_MODEL_AGENT_COPILOT`, then
-`GH_AW_DEFAULT_MODEL_COPILOT`, then `auto`. Its separate output threat-detection
-pass defaults to the `detection` alias; `GH_AW_MODEL_DETECTION_COPILOT` or the
-shared default variable can override that model. Before running, an organization administrator must
+Copilot is explicit; the main model is pinned to **`gpt-5.3-codex`** rather
+than `auto`. The pin avoids selecting a catalog model without runtime AI-credit
+pricing; no fallback pricing is invented and the budget stays enforced.
+The separate output threat-detection pass uses the same explicit model pin.
+Before running, an organization administrator must
 permit GitHub Actions, the pinned gh-aw actions, and Copilot workflow-token
 inference for this repository, with a supported model and sufficient billing
 budget/quota. The workflow requests `copilot-requests: write` so the runtime can
